@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="color:black">Cardic</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding align="center">
+  <canvas style="height: 500px;"
+          baseChart
+          [chartType]="'line'"
+          [datasets]="datasets"
+          [options]="options">
+  </canvas>
+<!--<ion-img src="../../assets/imgs/corazon.jpg" width="250" height="220" ></ion-img>-->
+<h3> {{ bpm }} </h3><br>
+<ion-button (click)="conect()">Conectar</ion-button>
+<ion-button (click)="disconnect()">Desconectar</ion-button>
+<!-- <ion-button (click)="sendData()">Send</ion-button> -->
+</ion-content>

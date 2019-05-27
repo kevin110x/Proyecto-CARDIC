@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title style="color:black;">Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content align="center">
+  <ion-card>
+    <ion-card-header style="color:black">
+      <h3>
+        ID Usuario: {{userr.Id_U}}
+      </h3>
+    </ion-card-header>
+    <h4 margin="20" align="justify" style="color:black">
+      Usuario: {{userr.Usuario_U}}
+      <hr>
+      Edad: {{userr.Edad_U}}
+      <hr>
+      Telefono: {{userr.Telefono_U}}
+      <hr>
+      Correo: {{userr.Correo_U}}
+      <hr>
+    </h4>
+    <ion-button style="margin-bottom: 20px" color="primary" (click)="edit()">Editar Usuario</ion-button>
+  </ion-card>
+</ion-content>

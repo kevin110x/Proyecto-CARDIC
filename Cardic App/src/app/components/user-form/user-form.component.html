@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start" >
+       <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title style="color:black;">Registrar Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+  <ion-content padding>
+    <form>
+      <div class="form-group">
+        <ion-item>
+          <ion-icon name="pulse"></ion-icon><label> &nbsp;</label>
+          <ion-input type="number" placeholder="ID manilla" [(ngModel)]="user.Id_U" name="id"></ion-input>
+        </ion-item>
+      </div>
+      <div class="form-group">
+        <ion-item>
+          <ion-icon name="person"></ion-icon>
+          <ion-input placeholder="Usuario" [(ngModel)]="user.Usuario_U" name="username"></ion-input>
+        </ion-item>
+      </div>
+      <div class="form-group">
+        <ion-item>
+          <ion-icon name="heart"></ion-icon>
+          <ion-input placeholder="Edad" type="number" [(ngModel)]="user.Edad_U" name="edad" ></ion-input>
+        </ion-item>
+      </div>
+      <div class="form-group">
+        <ion-item>
+          <ion-icon name="call"></ion-icon>
+          <ion-input placeholder="Telefono" type="number" [(ngModel)]="user.Telefono_U" name="telefono"></ion-input>
+        </ion-item>
+      </div>
+      <div class="form-group">
+        <ion-item>
+          <ion-icon name="at"></ion-icon>
+          <ion-input placeholder="Correo" type="email" [(ngModel)]="user.Correo_U" name="correo" ></ion-input>
+        </ion-item>
+      </div>
+      <div class="form-group">
+        <ion-item>
+          <ion-icon name="key"></ion-icon>
+          <ion-input placeholder="Contraseña" type="Password" [(ngModel)]="user.Clave_U" name="password"></ion-input>
+        </ion-item>
+      </div>
+      <div class="form-group">
+        <ion-item>
+          <ion-icon name="key"></ion-icon>
+          <ion-input placeholder="Confirmar Contraseña" type="Password" [(ngModel)]="repassword" name="repassword"></ion-input>
+        </ion-item>
+      </div>
+        <hr>
+        <ion-button expand="full" full (click)="registro()">Registrar</ion-button>
+    </form>
+  </ion-content>

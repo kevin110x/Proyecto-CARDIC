@@ -1,0 +1,26 @@
+<hr>
+<ion-content padding align="center">
+
+  <ion-img src="../../assets/imgs/unnamed.jpg" width="250" height="146" ></ion-img>
+
+  <hr>
+
+
+  <ion-item>
+    <ion-icon name="person"></ion-icon>
+    <ion-input  placeholder="Id" type="number" [(ngModel)]="username"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-icon  name="key"></ion-icon>
+    <ion-input  placeholder="Contraseña" type="Password" [(ngModel)]="password"></ion-input>
+  </ion-item>
+  
+  
+
+  <hr>
+
+  <ion-button expand="full" (click)="log()">Ingresar</ion-button>
+  <p align="center" (click)="presentAlert()">¿Has olvidado tu contraseña?</p><br>
+  <ion-button expand="full" color="light" (click)="reg()">Registrar</ion-button>
+
+</ion-content>
