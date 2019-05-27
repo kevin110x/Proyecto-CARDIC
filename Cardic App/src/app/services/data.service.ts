@@ -7,7 +7,7 @@ import { Data } from '../models/Data';
 })
 export class DataService {
 
-  API_URL = 'http://10.12.18.252:3000/API/';
+  API_URL = 'http://10.12.18.243:3000/API/';
   //API_URL = 'http://localhost:3000/API/';
 
   data = {};

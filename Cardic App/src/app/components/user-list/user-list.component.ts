@@ -49,7 +49,7 @@ export class UserListComponent  {
       text: 'Comprobar',
       role: 'submit',
       handler: ((inputs: {id : string, clave : string})=> {
-          this.http.post('http://10.12.18.252:3000/API/user/user', { id: inputs.id, clave: inputs.clave })
+          this.http.post('http://10.12.18.243:3000/API/user/user', { id: inputs.id, clave: inputs.clave })
             .subscribe(value => {
               console.log(value);
               this.usersService.user = value['user'];
