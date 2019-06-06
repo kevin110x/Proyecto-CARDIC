@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuController} from '@ionic/angular';
+import {MenuController, AlertController, Platform} from '@ionic/angular';
 
 
 import {ToastController} from '@ionic/angular';
@@ -12,29 +12,45 @@ import {BluetoothService} from '../services/bluetooth.service';
 import { Data } from 'src/app/models/Data';
 
 import { DataService } from 'src/app/services/data.service';
+import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
 
 
 @Component({
     selector: 'app-index',
     templateUrl: './index.page.html',
-    styleUrls: ['./index.page.scss'],
+    styleUrls: [],
 })
 export class IndexPage implements OnInit {
 
 
-    data: Data = {
-        Frecuencia_D: null,
-        Fecha_D: null,
-        Id_U: null,
-    }
+    // data: Data = {
+    //     Frecuencia_D: null,
+    //     Fecha_D: null,
+    //     Id_U: null,
+    // }
 
     bpm = '';
     constructor(public menu: MenuController,
-        public toast: ToastController,
-        public bluetoothSerial: BluetoothSerial,
-        private bluetoothService: BluetoothService)
+                public toast: ToastController,
+                public bluetoothSerial: BluetoothSerial,
+                private bluetoothService: BluetoothService,
+                private localNotifications: LocalNotifications,
+                private alertCtrl: AlertController,
+                private plt: Platform)
     //private dataService: DataService) 
     {
+
+        this.plt.ready().then(() => {
+            this.localNotifications.on('click').subscribe(res => {
+                let msg = res.data ? res.data.mydata : '';
+            });
+        });
+
+        this.plt.ready().then(() => {
+            this.localNotifications.on('trigger').subscribe(res => {
+
+            });
+        });
 
         this.menu.enable(true);
         bluetoothService.myEvent.subscribe(value => {
@@ -98,4 +114,18 @@ export class IndexPage implements OnInit {
             this.presentToast('error' + reason);
         });
     }
+
+    scheduleNotifications() {
+        if (this.bpm <= '110' ) {
+            this.localNotifications.schedule({
+                id: 1,
+                title: 'Atención',
+                text: 'Revisa tu pulso, hemos detectado alteraciones',
+                trigger: { in: 5, unit: ELocalNotificationTriggerUnit.SECOND},
+                data: { mydata: 'Ten cuidado'}
+            });
+        }
+    }
+
+
 }
