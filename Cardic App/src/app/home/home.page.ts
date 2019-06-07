@@ -35,7 +35,9 @@ export class HomePage {
   }
 
   log() {
-    this.http.post('http://192.168.1.54:3000/API/user/user', { id: this.username, clave: this.password })
+    // 192.168.137.1
+    // 10.12.18.193
+    this.http.post('http://10.12.18.193:3000/API/user/user', { id: this.username, clave: this.password })
       .subscribe(value => {
         console.log(value);
         this.uService.user = value['user'];

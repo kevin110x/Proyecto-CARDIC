@@ -7,7 +7,9 @@ import { User } from './../models/User';
 })
 export class UsersService {
 
-  API_URL = 'http://192.168.1.54:3000/API/';
+  // 192.168.137.1
+  // 10.12.18.193
+  API_URL = 'http://10.12.18.193:3000/API/';
   //API_URL = 'http://localhost:3000/API/';
 
   user = {};

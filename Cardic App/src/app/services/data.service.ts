@@ -7,7 +7,9 @@ import { Data } from '../models/Data';
 })
 export class DataService {
 
-  API_URL = 'http://192.168.1.54:3000/API/';
+  // 192.168.137.1
+  // 10.12.18.193
+  API_URL = 'http://10.12.18.193:3000/API/';
   //API_URL = 'http://localhost:3000/API/';
 
   data = {};
@@ -19,14 +21,10 @@ export class DataService {
     return this.http.get(this.API_URL + 'data');
   }
 
-  getdata(fecha: string) {
-    return this.http.get(this.API_URL + 'data/${fecha}');
+  getdata(Id_U: string) {
+    return this.http.get(this.API_URL + 'data/${Id_U}');
   }
-
-  deletedata(fecha: string) {
-    return this.http.delete(this.API_URL + 'data/${fecha}');
-  }
-
+  
   savedata(data: Data) {
     return this.http.post(this.API_URL + 'data', data)
 

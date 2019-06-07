@@ -23,20 +23,20 @@ import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native
 export class IndexPage implements OnInit {
 
 
-    // data: Data = {
-    //     Frecuencia_D: null,
-    //     Fecha_D: null,
-    //     Id_U: null,
-    // }
+     data: Data = {
+         Frecuencia_D: null,
+         Id_U: null,
+     }
 
-    bpm = '';
+    bpm = null;
     constructor(public menu: MenuController,
                 public toast: ToastController,
                 public bluetoothSerial: BluetoothSerial,
                 private bluetoothService: BluetoothService,
                 private localNotifications: LocalNotifications,
                 private alertCtrl: AlertController,
-                private plt: Platform)
+                private plt: Platform,
+                private datasService: DataService)
     //private dataService: DataService) 
     {
 
@@ -54,14 +54,25 @@ export class IndexPage implements OnInit {
 
         this.menu.enable(true);
         bluetoothService.myEvent.subscribe(value => {
-            this.presentToast(value);
-            this.bpm = value;
+            // this.presentToast(value);
+            this.bpm=value;
+            this.data.Frecuencia_D = value;
+            this.data.Id_U = "1";
+            if(this.data.Frecuencia_D>0){
+                this.datasService.savedata(this.data
+            ).subscribe(
+                res => {
+                  if (res['ok']) {
+                  } else {
+                  }
+                });};
             this.datasets.forEach(function (dataset: any) {
                 dataset.data.push({
                     x: Date.now(),
                     y: value
                 });
-            });
+            }
+            );
             // this.presentToast(value);
         });
     }
@@ -116,7 +127,7 @@ export class IndexPage implements OnInit {
     }
 
     scheduleNotifications() {
-        if (this.bpm <= '110' ) {
+        if (this.bpm >= 110 ) {
             this.localNotifications.schedule({
                 id: 1,
                 title: 'Atención',
@@ -124,6 +135,8 @@ export class IndexPage implements OnInit {
                 trigger: { in: 5, unit: ELocalNotificationTriggerUnit.SECOND},
                 data: { mydata: 'Ten cuidado'}
             });
+        }else{
+            this.presentToast("Nana pasa");
         }
     }
 
