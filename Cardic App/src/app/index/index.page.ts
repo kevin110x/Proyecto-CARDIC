@@ -136,7 +136,7 @@ export class IndexPage implements OnInit {
                 data: { mydata: 'Ten cuidado'}
             });
         }else{
-            this.presentToast("Nana pasa");
+            this.presentToast("Nada pasa");
         }
     }
 
