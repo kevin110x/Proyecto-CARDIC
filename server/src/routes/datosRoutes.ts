@@ -11,9 +11,8 @@ class DataRoutes {
 
     config(): void{
       this.router.get('/',datosController.list);
-      this.router.post('/datos',datosController.getOne);
+      this.router.get('/:Id_U',datosController.getOne);
       this.router.post('/', datosController.create);
-      this.router.delete('/:Id_U', datosController.delete);
     }
 }
 

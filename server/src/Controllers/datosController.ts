@@ -8,26 +8,20 @@ class DataController{
   }
 
   public async getOne (req: Request, res: Response){
-    const body =  req.body;
-    const datos = await pool.query(`Select * from tbl_datos where Id_U = ${body.id} and Fecha_D = ${body.fecha}`);
-    let data = datos[0];
-    console.log('Dato', datos);
+    const { Id_U } = req.params;
+    const datos = await pool.query(`Select * from tbl_datos where Id_U = ?`,[Id_U]);;
     if(datos.length >0){
-      if(data)
-      return res.json({
-        ok: true,
-        user:datos[0]
-      });
+      return res.json(datos);
     }else{
       res.json({
         ok: false,
-        text: 'No existe tal Dato'
+        text: 'No contiene datos'
       });
     }
   }
 
   public async create (req: Request, res: Response){
-    await pool.query('Insert into tbl_datos set ?', [req.body]);
+    await pool.query('Insert into tbl_datos set ?, fecha_D=now()', [req.body]);
     res.json({message: 'Dato Guardado'});
     
   }
