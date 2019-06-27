@@ -15,7 +15,7 @@ export class BluetoothService {
     connect() {
         const decoder = new TextDecoder('utf-8');
         this.presentLoading();
-        this.bluetoothSerial.connect('98:D3:51:F5:AF:70')
+        this.bluetoothSerial.connect('98:D3:71:FD:63:FF')
             .subscribe(value => {
                 this.loadingController.dismiss();
                 this.myEvent.emit('Conectado');

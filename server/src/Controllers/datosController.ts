@@ -29,14 +29,14 @@ class DataController {
   public async sendAlert(req: Request, res: Response) {
 
     console.log('body', req.body)
-    const accountSid = 'ACd00d2aa20a9fc7df2147462d79966009';
-    const authToken = '7fb9d7fd9eaeb3f15b227f8e4f884835';
+    const accountSid = 'ACd65516ec994893596592b73f2a77b863';
+    const authToken = 'd55e072b32b0a857a7d73b7e56451741';
     const client = require('twilio')(accountSid, authToken);
 
     client.messages
       .create({
         body: req.body.message,
-        from: '+13342923810',
+        from: '+12094424289',
         to: req.body.to
       })
       .then((message: any) => {

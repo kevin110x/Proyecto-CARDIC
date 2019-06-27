@@ -51,7 +51,8 @@ export class IndexPage implements OnInit {
     active;
 
     datasets: any[] = [{
-        data: []
+        data: [],
+        label: 'Electro'
     }];
 
     options: any = {
@@ -76,7 +77,7 @@ export class IndexPage implements OnInit {
     }
 
     sendMessage() {
-        this.message.sendMessage('+573106291361', 'Tu ritmo cardiaco se encuentra fuera del rango normal, por favor revisa tu condición.')
+        this.message.sendMessage('+573145475480', 'Tu ritmo cardiaco se encuentra fuera del rango normal, por favor revisa tu condición.')
             .subscribe(value => {
                 console.log(value);
             });
@@ -95,7 +96,7 @@ export class IndexPage implements OnInit {
             if (this.data.Frecuencia_D > 0) {
                 if (this.data.Frecuencia_D >= 120 || this.data.Frecuencia_D <= 70) {
                     this.message.sendMessage
-                        ('+573106291361', 'Tu ritmo cardiaco se encuentra fuera del rango normal, por favor revisa tu condición.')
+                        ('+573145475480', 'Tu ritmo cardiaco se encuentra fuera del rango normal, por favor revisa tu condición.')
                         .subscribe(val => {
                             console.log(val);
                         });
@@ -160,8 +161,8 @@ export class IndexPage implements OnInit {
     scheduleNotification() {
         this.localNotifications.schedule({
             id: 1,
-            title: 'Attention',
-            text: 'Simons Notification',
+            title: 'Alarma Test',
+            text: 'Simons Notificación de pruebas',
             data: { mydata: 'My hidden message this is' },
             trigger: { in: 1, unit: ELocalNotificationTriggerUnit.SECOND },
             foreground: true // Show the notification while app is open

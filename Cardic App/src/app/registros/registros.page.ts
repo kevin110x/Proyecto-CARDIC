@@ -17,7 +17,7 @@ export class RegistrosPage {
     fecha_D: null
   };
   D = {
-    Fecha_D : null,
+    Fecha_D: null,
   };
 
   users: any = [];
@@ -35,15 +35,15 @@ export class RegistrosPage {
     this.userr = this.usersService.user;
     console.log('user', this.userr);
     this.registros();
-    if (JSON.stringify(this.userr) == '{}') {
+    if (JSON.stringify(this.userr) === '{}') {
       this.navCtrl.navigateForward('home');
-    };
+    }
     this.usersService.getUsers().subscribe(
       res => {
         this.users = res;
       },
       err => console.log(err)
-    )
+    );
   }
 
 
@@ -51,25 +51,25 @@ export class RegistrosPage {
     this.dataService.getData().subscribe((data: any) => {
       this.data = data;
       console.log(this.data);
-    })
+    });
   }
 
-  busqueda(){
+  busqueda() {
     this.dataService.getdata(this.D.Fecha_D).subscribe((data: any) => {
       this.data = data;
       console.log(this.data);
-    })
-  }
-
-  async logAlert() {
-    const alert = await this.Alerta.create({
-      header: 'Lo sentimos',
-      message: 'Esta función está en desarrollo',
-      buttons: ['OK']
     });
-    this.navCtrl.navigateForward('index');
-
-    await alert.present();
   }
+
+  // async logAlert() {
+  //   const alert = await this.Alerta.create({
+  //     header: 'Lo sentimos',
+  //     message: 'Esta función está en desarrollo',
+  //     buttons: ['OK']
+  //   });
+  //   this.navCtrl.navigateForward('index');
+
+  //   await alert.present();
+  // }
 }
 
