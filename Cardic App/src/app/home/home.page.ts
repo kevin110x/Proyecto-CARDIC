@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController} from '@ionic/angular';
-import { UsersService } from '../services/users.service'
+import { NavController, AlertController, LoadingController } from '@ionic/angular';
+import { UsersService } from '../services/users.service';
 import { HttpClient } from '@angular/common/http';
 import { MenuController } from '@ionic/angular';
 
@@ -20,32 +20,28 @@ export class HomePage {
     private http: HttpClient,
     private uService: UsersService,
     private menu: MenuController) {
-      
   }
 
-  ionViewDidLoad(){
+  ionViewDidLoad() {
     this.menu.enable(false);
   }
 
-  
-  ionViewWillEnter(){
+  ionViewWillEnter() {
     this.menu.enable(false);
-    this.username = "";
-    this.password = "";
+    this.username = '';
+    this.password = '';
   }
 
   log() {
-    // 192.168.137.1
-    // 10.12.18.193
-    this.http.post('http://10.12.18.193:3000/API/user/user', { id: this.username, clave: this.password })
+    this.uService.login(this.username, this.password)
       .subscribe(value => {
         console.log(value);
         this.uService.user = value['user'];
         if (value['ok']) {
           this.loading();
           this.navCtrl.navigateForward('index');
-          this.username = "";
-          this.password = "";
+          this.username = '';
+          this.password = '';
           this.menu.enable(true);
         } else {
           this.logAlert();
@@ -53,14 +49,13 @@ export class HomePage {
         return value;
       });
 
-
   }
 
   reg() {
-          this.navCtrl.navigateForward('regis');
-          this.username = "";
-          this.password = "";
-          this.menu.enable(false);
+    this.navCtrl.navigateForward('regis');
+    this.username = '';
+    this.password = '';
+    this.menu.enable(false);
 
   }
 

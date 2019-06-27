@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController } from '@ionic/angular';
+import { UsersService } from '../services/users.service';
 
 @Component({
   selector: 'app-estadis',
@@ -8,14 +9,28 @@ import { AlertController, NavController } from '@ionic/angular';
 })
 export class EstadisPage implements OnInit {
 
-  constructor(public Alerta: AlertController, public navCtrl: NavController) { }
+  users: any = [];
+  userr = {};
 
-  ionViewWillEnter(){
-    this.logAlert();
+  constructor(private usersService: UsersService, private navCtrl: NavController, public Alerta: AlertController) { }
+
+  ionViewWillEnter() {
+    this.userr = this.usersService.user;
+    console.log('user', this.userr);
+    if (JSON.stringify(this.userr) == '{}') {
+      this.navCtrl.navigateForward('home')
+    };
+    this.usersService.getUsers().subscribe(
+      res => {
+        this.users = res;
+      },
+      err => console.log(err)
+
+    );
   }
 
   ngOnInit() {
-    
+
   }
 
   async logAlert() {

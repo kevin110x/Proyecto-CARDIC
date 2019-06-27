@@ -1,18 +1,22 @@
-import {Component, OnInit} from '@angular/core';
-import {MenuController, AlertController, Platform} from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
+import { MenuController, AlertController, Platform } from '@ionic/angular';
+import { UsersService } from '../services/users.service';
 
 
-import {ToastController} from '@ionic/angular';
-import {BluetoothSerial} from '@ionic-native/bluetooth-serial/ngx';
+import { ToastController } from '@ionic/angular';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 
-import {Chart} from 'chart.js';
+import { Chart } from 'chart.js';
 import 'chartjs-plugin-streaming';
-import {BluetoothService} from '../services/bluetooth.service';
+import { BluetoothService } from '../services/bluetooth.service';
 
 import { Data } from 'src/app/models/Data';
+import { NavController } from '@ionic/angular';
 
 import { DataService } from 'src/app/services/data.service';
 import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native/local-notifications/ngx';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { MessageService } from '../services/message.service';
 
 
 @Component({
@@ -22,59 +26,27 @@ import { LocalNotifications, ELocalNotificationTriggerUnit } from '@ionic-native
 })
 export class IndexPage implements OnInit {
 
+    users: any = [];
+    userr = {};
 
-     data: Data = {
-         Frecuencia_D: null,
-         Id_U: null,
-     }
+    data: Data = {
+        Frecuencia_D: null,
+        Id_U: null,
+    };
 
     bpm = null;
     constructor(public menu: MenuController,
-                public toast: ToastController,
-                public bluetoothSerial: BluetoothSerial,
-                private bluetoothService: BluetoothService,
-                private localNotifications: LocalNotifications,
-                private alertCtrl: AlertController,
-                private plt: Platform,
-                private datasService: DataService)
-    //private dataService: DataService) 
-    {
+        public toast: ToastController,
+        public bluetoothSerial: BluetoothSerial,
+        private bluetoothService: BluetoothService,
+        private localNotifications: LocalNotifications,
+        private alertCtrl: AlertController,
+        private plt: Platform,
+        private datasService: DataService,
+        private usersService: UsersService,
+        private navCtrl: NavController,
+        private message: MessageService) {
 
-        this.plt.ready().then(() => {
-            this.localNotifications.on('click').subscribe(res => {
-                let msg = res.data ? res.data.mydata : '';
-            });
-        });
-
-        this.plt.ready().then(() => {
-            this.localNotifications.on('trigger').subscribe(res => {
-
-            });
-        });
-
-        this.menu.enable(true);
-        bluetoothService.myEvent.subscribe(value => {
-            // this.presentToast(value);
-            this.bpm=value;
-            this.data.Frecuencia_D = value;
-            this.data.Id_U = "1";
-            if(this.data.Frecuencia_D>0){
-                this.datasService.savedata(this.data
-            ).subscribe(
-                res => {
-                  if (res['ok']) {
-                  } else {
-                  }
-                });};
-            this.datasets.forEach(function (dataset: any) {
-                dataset.data.push({
-                    x: Date.now(),
-                    y: value
-                });
-            }
-            );
-            // this.presentToast(value);
-        });
     }
     active;
 
@@ -95,11 +67,19 @@ export class IndexPage implements OnInit {
         }
     };
 
-    ngOnInit() {}
+
+    ngOnInit() { }
 
     conect() {
-        this.presentToast('Connect');
+        this.presentToast('Conectando');
         this.bluetoothService.connect();
+    }
+
+    sendMessage() {
+        this.message.sendMessage('+573106291361', 'Tu ritmo cardiaco se encuentra fuera del rango normal, por favor revisa tu condición.')
+            .subscribe(value => {
+                console.log(value);
+            });
     }
 
     ionViewWillLeave() {
@@ -107,7 +87,58 @@ export class IndexPage implements OnInit {
     }
 
     ionViewWillEnter() {
+
+        this.menu.enable(true);
+        this.bluetoothService.myEvent.subscribe(value => {
+            // this.presentToast(value);
+            this.data.Frecuencia_D = value;
+            if (this.data.Frecuencia_D > 0) {
+                if (this.data.Frecuencia_D >= 120 || this.data.Frecuencia_D <= 70) {
+                    this.message.sendMessage
+                        ('+573106291361', 'Tu ritmo cardiaco se encuentra fuera del rango normal, por favor revisa tu condición.')
+                        .subscribe(val => {
+                            console.log(val);
+                        });
+                }
+                if (this.data.Frecuencia_D >= 120 || this.data.Frecuencia_D <= 70) {
+                    this.localNotifications.schedule({
+                        id: 1,
+                        title: 'Precaución',
+                        text: 'Notificación de alerta.\n Tu condición cardiaca se ha alterado, por favor revisa tu condición',
+                        data: { mydata: 'My hidden message this is' },
+                        trigger: { in: 1, unit: ELocalNotificationTriggerUnit.SECOND },
+                        foreground: true // Show the notification while app is open
+                    });
+                }
+                this.datasService.savedata(this.data
+                ).subscribe(
+                    res => {
+                        if (res['ok']) {
+                        } else {
+                        }
+                    });
+            }
+            this.datasets.forEach(function (dataset: any) {
+                dataset.data.push({
+                    x: Date.now(),
+                    y: value
+                });
+            }
+            );
+            // this.presentToast(value);
+        });
         this.active = true;
+        this.userr = this.usersService.user;
+        console.log('user', this.userr);
+        if (JSON.stringify(this.userr) === '{}') {
+            this.navCtrl.navigateForward('home');
+        }
+        this.usersService.getUsers().subscribe(
+            res => {
+                this.users = res;
+            },
+            err => console.log(err)
+        );
     }
 
     async presentToast(message) {
@@ -126,19 +157,14 @@ export class IndexPage implements OnInit {
         });
     }
 
-    scheduleNotifications() {
-        if (this.bpm >= 110 ) {
-            this.localNotifications.schedule({
-                id: 1,
-                title: 'Atención',
-                text: 'Revisa tu pulso, hemos detectado alteraciones',
-                trigger: { in: 5, unit: ELocalNotificationTriggerUnit.SECOND},
-                data: { mydata: 'Ten cuidado'}
-            });
-        }else{
-            this.presentToast("Nada pasa");
-        }
+    scheduleNotification() {
+        this.localNotifications.schedule({
+            id: 1,
+            title: 'Attention',
+            text: 'Simons Notification',
+            data: { mydata: 'My hidden message this is' },
+            trigger: { in: 1, unit: ELocalNotificationTriggerUnit.SECOND },
+            foreground: true // Show the notification while app is open
+        });
     }
-
-
 }

@@ -8,24 +8,15 @@
 </ion-header>
 
 <ion-content padding align="center">
-  <canvas style="height: 500px;"
-          baseChart
-          [chartType]="'line'"
-          [datasets]="datasets"
-          [options]="options">
+  <canvas style="height: 500px;" baseChart [chartType]="'line'" [datasets]="datasets" [options]="options">
   </canvas>
-<!--<ion-img src="../../assets/imgs/corazon.jpg" width="250" height="220" ></ion-img>-->
-<h3> {{ bpm }} </h3><br>
-<ion-button (click)="conect()">Conectar</ion-button>
-<ion-button (click)="disconnect()">Desconectar</ion-button>
+  <!--<ion-img src="../../assets/imgs/corazon.jpg" width="250" height="220" ></ion-img>-->
+  <h3> {{ data.Frecuencia_D }} </h3><br>
+  <ion-button (click)="conect()">Conectar</ion-button>
+  <ion-button (click)="disconnect()">Desconectar</ion-button>
+  <!-- <ion-button (click)="sendMessage()">Send Message</ion-button> -->
+  <ion-button expand="block" (click)="scheduleNotification()">Schedule</ion-button>
 
-<ion-list>
-  <ion-item *ngFor="let n of scheduled">
-    <ion-label text-wrap>
-      {{ n.id }} -- {{ n.title }}
-      <p>Trigger: {{ n.trigger | json }}</p>
-    </ion-label>
-  </ion-item>
-</ion-list>
+  <!-- <ion-button ion-button full (click)="scheduleNotification()">Press Me</ion-button> -->
 
 </ion-content>

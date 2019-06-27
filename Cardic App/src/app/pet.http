@@ -1,0 +1,6 @@
+GET http://localhost:3000/API/data
+content-type: application/json
+
+###
+GET http://localhost:3000/API/user
+content-type: application/json

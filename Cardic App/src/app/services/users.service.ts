@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from './../models/User';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  // 192.168.137.1
-  // 10.12.18.193
-  API_URL = 'http://10.12.18.193:3000/API/';
-  //API_URL = 'http://localhost:3000/API/';
+  API_URL = environment.url_api;
 
   user = {};
   constructor(private http: HttpClient) {
@@ -18,36 +16,31 @@ export class UsersService {
   }
 
   login(id, clave) {
-    return this.http.post(this.API_URL + 'user/user', {id,clave})
-      .subscribe(value => {
-        this.user = value['user'];
-        console.log('user service', value);
-        return value;
-      });
+    return this.http.post(this.API_URL + '/user/user', { id, clave });
   }
 
   getUsers() {
-    return this.http.get(this.API_URL + 'user');
+    return this.http.get(this.API_URL + '/user');
   }
 
   getUser(id: string) {
-    return this.http.get(this.API_URL + 'user/${id}');
+    return this.http.get(this.API_URL + '/user/${id}');
   }
 
   logUser(id: string) {
-    return this.http.get(this.API_URL + 'user/${id}');
+    return this.http.get(this.API_URL + '/user/${id}');
   }
 
   deleteUser(id: string) {
-    return this.http.delete(this.API_URL + 'user/${id}');
+    return this.http.delete(this.API_URL + '/user/${id}');
   }
 
   saveUser(user: User) {
-    return this.http.post(this.API_URL + 'user', user)
+    return this.http.post(this.API_URL + '/user', user)
 
   }
 
   uptadeUser(id: string | number, user: User) {
-    return this.http.put(this.API_URL + `user/${id}`, user);
+    return this.http.put(this.API_URL + `/user/${id}`, user);
   }
 }

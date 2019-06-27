@@ -12,8 +12,9 @@ class DataRoutes {
     }
     config() {
         this.router.get('/', datosController_1.default.list);
-        this.router.get('/:Id_U', datosController_1.default.getOne);
+        this.router.get('/:fech', datosController_1.default.getOne);
         this.router.post('/', datosController_1.default.create);
+        this.router.post('/message', datosController_1.default.sendAlert);
     }
 }
 const dataRoutes = new DataRoutes();

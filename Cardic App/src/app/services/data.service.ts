@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Data } from '../models/Data';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  // 192.168.137.1
-  // 10.12.18.193
-  API_URL = 'http://10.12.18.193:3000/API/';
-  //API_URL = 'http://localhost:3000/API/';
+  API_URL = environment.url_api;
+  // API_URL = 'http://localhost:3000/API/';
 
   data = {};
   constructor(private http: HttpClient) {
@@ -18,15 +17,15 @@ export class DataService {
   }
 
   getData() {
-    return this.http.get(this.API_URL + 'data');
+    return this.http.get(this.API_URL + '/data');
   }
 
-  getdata(Id_U: string) {
-    return this.http.get(this.API_URL + 'data/${Id_U}');
+  getdata(Fecha_D: Date) {
+    return this.http.get(this.API_URL + '/data/' + Fecha_D);
   }
-  
+
   savedata(data: Data) {
-    return this.http.post(this.API_URL + 'data', data)
+    return this.http.post(this.API_URL + '/data', data)
 
   }
 

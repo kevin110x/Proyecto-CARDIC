@@ -21,11 +21,11 @@ export class AppComponent {
       url: '/registros',
       icon: 'list'
     },
-    {
-      title: 'Estadísticas',
-      url: '/estadis',
-      icon: 'stats'
-    },
+    // {
+    //   title: 'Estadísticas',
+    //   url: '/estadis',
+    //   icon: 'stats'
+    // },
     {
       title: 'Consejos',
       url: '/consejos',
@@ -44,7 +44,7 @@ export class AppComponent {
     {
       title: 'Salir',
       url: '/home',
-      icon: 'pulse'
+      icon: 'power'
     },
 
   ];

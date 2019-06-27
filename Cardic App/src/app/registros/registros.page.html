@@ -7,6 +7,27 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-    
+<ion-content aadding>
+    <ion-item>
+        <ion-input placeholder="Fecha" [(ngModel)]="D.Fecha_D" name="Fecha" type="date">Fecha: </ion-input>
+        <ion-button class="button" type="submit" (click)="busqueda()">Buscar</ion-button>
+      </ion-item>
+    <ion-grid>
+        <ion-row>
+          <ion-col>
+            Frecuencia
+          </ion-col>
+          <ion-col>
+            Fecha
+          </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let da of data.reverse()">
+            <ion-col>
+              {{da.Frecuencia_D}}
+            </ion-col>
+            <ion-col>
+              {{da.Fecha_D | date:'medium'}}
+            </ion-col>
+          </ion-row>
+      </ion-grid>    
 </ion-content>

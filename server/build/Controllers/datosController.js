@@ -21,8 +21,9 @@ class DataController {
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { Id_U } = req.params;
-            const datos = yield database_1.default.query(`Select * from tbl_datos where Id_U = ?`, [Id_U]);
+            const { fech } = req.params;
+            console.log(fech);
+            const datos = yield database_1.default.query(`Select * from tbl_datos where Fecha_D LIKE ?`, ['%' + fech + '%']);
             ;
             if (datos.length > 0) {
                 return res.json(datos);
@@ -41,10 +42,28 @@ class DataController {
             res.json({ message: 'Dato Guardado' });
         });
     }
+    sendAlert(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('body', req.body);
+            const accountSid = 'ACd65516ec994893596592b73f2a77b863';
+            const authToken = 'd55e072b32b0a857a7d73b7e56451741';
+            const client = require('twilio')(accountSid, authToken);
+            client.messages
+                .create({
+                body: req.body.message,
+                from: '+12094424289',
+                to: req.body.to
+            })
+                .then((message) => {
+                console.log(message.sid);
+                res.json({ sid: message.sid });
+            });
+        });
+    }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { Id_U } = req.params;
-            const datos = yield database_1.default.query('delete from tbl_datos where Id_U = ?', [Id_U]);
+            yield database_1.default.query('delete from tbl_datos where Id_U = ?', [req.body]);
             res.json({ text: 'Dato eliminado correctamente.' });
         });
     }
